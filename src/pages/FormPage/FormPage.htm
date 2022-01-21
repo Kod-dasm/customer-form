@@ -1,0 +1,57 @@
+<body class="body">
+  <header></header>
+  <main class="main">
+    <form class="form" @submit.prevent="submit">
+      <h3>Форма клиента</h3>
+      <div class="form-container">
+        <div class="form-container__block form-container__block--max-height-250 form-container__block--width">
+          <div class="form-container__block__item" v-for="(item, index) in mainAttributes" :key="item.name" >
+            <template v-if="item.type == 'select'">
+              <select class="form-container__block__item__select" v-model="item.value">
+                <option class="form-container__block__item__select__option" v-for="(option, index) in item.options" :key="index" >{{ option }}</option>
+              </select>
+            </template>
+            <template v-else>
+              <input class="form-container__block__item__input" :type="item.type" v-model="item.value">
+            </template>
+            <label class="form-container__block__item__label">{{ item.name }}</label>
+          </div>
+        </div>
+        <div class="form-container__block__item-checkbox">
+          <input class="checkbox" type="checkbox" v-model="notSendSMS">
+          <label class="">Не отправлять СМС</label>
+        </div>
+      </div>
+      <h4 class="heading-4--margin">Адрес</h4>
+      <div class="form-container">
+        <div class="form-container__block form-container__block--max-height-200 form-container__block--width">
+          <div class="form-container__block__item" v-for="(item, index) in addressAttributes" :key="item.name" >
+            <input class="form-container__block__item__input" type="text" v-model="item.value">
+            <label class="form-container__block__item__label">{{ item.name }}</label>
+          </div>
+        </div>
+      </div>
+      <h4 class="heading-4--margin">Паспорт</h4>
+      <div class="form-container">
+        <div class="form-container__block__item">
+          <select class="form-container__block__item__select" v-model="passportAttributes[0].value">
+            <option class="form-container__block__item__select__option" v-for="(option, index) in passportAttributes[0].options" :key="index" >{{ option }}</option>
+          </select>
+          <label class="form-container__block__item__label">{{ passportAttributes[0].name }}</label>
+        </div>
+        <div class="form-container__block form-container__block--max-height-140 form-container__block--width">
+          <div class="form-container__block__item" v-for="(item, index) in getPassportAttributes()" :key="item.name" >
+            <input class="form-container__block__item__input" :type="item.type" v-model="item.value">
+            <label class="form-container__block__item__label">{{ item.name }}</label>
+          </div>
+        </div>
+      </div>
+      <button class="form-button" type="submit" :disabled="submitStatus === 'PENDING'">Отправить</button>
+      <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
+      <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
+      <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
+    </form>
+  </main>
+  <footer>
+  </footer>
+</body>

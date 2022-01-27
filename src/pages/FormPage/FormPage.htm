@@ -4,54 +4,189 @@
     <form class="form" @submit.prevent="submit">
       <h3>Форма клиента</h3>
       <div class="form-container">
-        <div class="form-container__block form-container__block--max-height-250 form-container__block--width">
-          <div class="form-container__block__item" v-for="(item, index) in mainAttributes" :key="item.name" >
-            <template v-if="item.type == 'select'">
-              <select class="form-container__block__item__select" v-model="item.value">
-                <option class="form-container__block__item__select__option" v-for="(option, index) in item.options" :key="index" >{{ option }}</option>
-              </select>
-            </template>
-            <template v-else>
-              <input class="form-container__block__item__input" :type="item.type" v-model="item.value">
-            </template>
-            <label class="form-container__block__item__label">{{ item.name }}</label>
+        <div
+          class="form-container__block form-container__block--max-height-250 form-container__block--width"
+        >
+          <div class="form-container__block__item" :class="$v.form.surname.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" v-model.trim="form.surname"/>
+            <label class="form-container__block__item__label">
+              Фамилия<span>*</span>
+            </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.name.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" v-model.trim="form.name"/>
+            <label class="form-container__block__item__label">
+              Имя<span>*</span>
+            </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.middleName.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" v-model.trim="form.middleName"/>
+            <label class="form-container__block__item__label">
+              Отчество<span>*</span>
+            </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.clientGroup.value.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <select
+              class="form-container__block__item__select"
+              v-model="form.clientGroup.value"
+            >
+              <option
+                class="form-container__block__item__select__option"
+                v-for="(option, index) in form.clientGroup.options"
+                :key="index"
+              >
+                {{ option }}
+              </option>
+            </select>
+              <label class="form-container__block__item__label">
+                Группа клиентов<span>*</span>
+              </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.dateOfBirth.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" type="date" v-model.trim="form.dateOfBirth"/>
+            <label class="form-container__block__item__label">
+              Дата рождения<span>*</span>
+            </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.phone.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" v-model.trim="form.phone" @keyup.delete="vDate"/>
+            <label class="form-container__block__item__label">
+              Номер телефона<span>*</span>
+            </label>
+          </div>
+          <div class="form-container__block__item">
+            <input class="form-container__block__item__input" v-model.trim="form.gender"/>
+            <label class="form-container__block__item__label">
+              Пол
+            </label>
+          </div>
+          <div class="form-container__block__item">
+            <select
+              class="form-container__block__item__select"
+              v-model="form.attendingDoctor.value"
+            >
+              <option
+                class="form-container__block__item__select__option"
+                v-for="(option, index) in form.attendingDoctor.options"
+                :key="index"
+              >
+                {{ option }}
+              </option>
+            </select>
+            <label class="form-container__block__item__label">
+              Лечащий врач
+            </label>
           </div>
         </div>
         <div class="form-container__block__item-checkbox">
-          <input class="checkbox" type="checkbox" v-model="notSendSMS">
+          <input class="checkbox" type="checkbox" v-model.trim="form.notSendSMS" />
           <label class="">Не отправлять СМС</label>
         </div>
       </div>
       <h4 class="heading-4--margin">Адрес</h4>
       <div class="form-container">
-        <div class="form-container__block form-container__block--max-height-200 form-container__block--width">
-          <div class="form-container__block__item" v-for="(item, index) in addressAttributes" :key="item.name" >
-            <input class="form-container__block__item__input" type="text" v-model="item.value">
-            <label class="form-container__block__item__label">{{ item.name }}</label>
-          </div>
+        <div class="form-container__block__item">
+          <input class="form-container__block__item__input" v-model.trim="form.country"/>
+          <label class="form-container__block__item__label">
+            Страна
+          </label>
+        </div>
+        <div class="form-container__block__item">
+          <input class="form-container__block__item__input" v-model.trim="form.region"/>
+          <label class="form-container__block__item__label">
+            Область
+          </label>
+        </div>
+        <div class="form-container__block__item" :class="$v.form.city.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+          <input class="form-container__block__item__input" v-model.trim="form.city"/>
+          <label class="form-container__block__item__label">
+            Город<span>*</span>
+          </label>
+        </div>
+        <div class="form-container__block__item">
+          <input class="form-container__block__item__input" v-model.trim="form.index"/>
+          <label class="form-container__block__item__label">
+            Индекс
+          </label>
+        </div>
+        <div class="form-container__block__item">
+          <input class="form-container__block__item__input" v-model.trim="form.street"/>
+          <label class="form-container__block__item__label">
+            Улица
+          </label>
+        </div>
+        <div class="form-container__block__item">
+          <input class="form-container__block__item__input" v-model.trim="form.house"/>
+          <label class="form-container__block__item__label">
+            Дом
+          </label>
         </div>
       </div>
       <h4 class="heading-4--margin">Паспорт</h4>
       <div class="form-container">
-        <div class="form-container__block__item">
-          <select class="form-container__block__item__select" v-model="passportAttributes[0].value">
-            <option class="form-container__block__item__select__option" v-for="(option, index) in passportAttributes[0].options" :key="index" >{{ option }}</option>
+        <div class="form-container__block__item" :class="$v.form.TypeDocument.value.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+          <select
+            class="form-container__block__item__select"
+            v-model="form.TypeDocument.value"
+          >
+            <option
+              class="form-container__block__item__select__option"
+              v-for="(option, index) in form.TypeDocument.options"
+              :key="index"
+            >
+              {{ option }}
+            </option>
           </select>
-          <label class="form-container__block__item__label">{{ passportAttributes[0].name }}</label>
+          <label class="form-container__block__item__label"
+            >Тип документа<span>*</span></label
+          >
         </div>
-        <div class="form-container__block form-container__block--max-height-140 form-container__block--width">
-          <div class="form-container__block__item" v-for="(item, index) in getPassportAttributes()" :key="item.name" >
-            <input class="form-container__block__item__input" :type="item.type" v-model="item.value">
-            <label class="form-container__block__item__label">{{ item.name }}</label>
+        <div
+          class="form-container__block form-container__block--max-height-140 form-container__block--width"
+        >
+          <div class="form-container__block__item">
+            <input class="form-container__block__item__input" v-model.trim="form.series"/>
+            <label class="form-container__block__item__label">
+              Серия
+            </label>
+          </div>
+          <div class="form-container__block__item">
+            <input class="form-container__block__item__input" v-model.trim="form.number"/>
+            <label class="form-container__block__item__label">
+              Номер
+            </label>
+          </div>
+          <div class="form-container__block__item">
+            <input class="form-container__block__item__input" v-model.trim="form.whoIssued"/>
+            <label class="form-container__block__item__label">
+              Кем выдан
+            </label>
+          </div>
+          <div class="form-container__block__item" :class="$v.form.dateIssued.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
+            <input class="form-container__block__item__input" type="date" v-model.trim="form.dateIssued"/>
+            <label class="form-container__block__item__label">
+              Дата выдачи<span>*</span>
+            </label>
           </div>
         </div>
       </div>
-      <button class="form-button" type="submit" :disabled="submitStatus === 'PENDING'">Отправить</button>
-      <p class="typo__p" v-if="submitStatus === 'OK'">Thanks for your submission!</p>
-      <p class="typo__p" v-if="submitStatus === 'ERROR'">Please fill the form correctly.</p>
-      <p class="typo__p" v-if="submitStatus === 'PENDING'">Sending...</p>
+      <button
+        class="form-button"
+        type="submit"
+        :disabled="form.submitStatus === 'PENDING'"
+      >
+        Отправить
+      </button>
     </form>
+    <p class="message message--successfully" v-if="form.submitStatus === 'OK'">
+      Клиент успешно создан!
+    </p>
+    <p class="message message--error" v-if="form.submitStatus === 'ERROR'">
+      Пожалуйста, заполните форму правильно. 
+      <span v-if="$v.form.$error"><br>Поля отмеченные "*" являются обязательными.</span>
+      <span v-if="$v.form.phone.$error"><br>В поле "Номер телефона" должно быть 11 цифр.</span>
+    </p>
+    <p class="message" v-if="form.submitStatus === 'PENDING'">Отправка...</p>
   </main>
-  <footer>
-  </footer>
+  <footer></footer>
 </body>

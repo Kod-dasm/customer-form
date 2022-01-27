@@ -1,70 +1,71 @@
-import { required } from 'vuelidate'
+import { validationMixin } from 'vuelidate'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
+  mixins: [validationMixin],
   data() {
     return {
-      submitStatus: null,
-      notSendSMS: false,
-      mainAttributes: [
-        { name: 'Фамилия', value: '', type: 'text' },//*
-        { name: 'Имя', value: '', type: 'text' },//*
-        { name: 'Отчество', value: '', type: 'text' },//*
-        { name: 'Группа клиентов', value: '', type: 'select', options: ['VIP', 'Проблемные', 'ОМС']},//*
-        { name: 'Дата рождения', value: '', type: 'date' },//*
-        { name: 'Номер телефона', value: '(+7)', type: 'text' },//* (11 цифр. Начинается с 7)
-        { name: 'Пол', value: '', type: 'text' },
-        { name: 'Лечащий врач', value: '', type: 'select', options: [ 'Иванов', 'Захаров', 'Чернышева' ]},
-      ],
-      addressAttributes: [
-        { name: 'Страна', value: '' },
-        { name: 'Область', value: '' },
-        { name: 'Город', value: '' },//*
-        { name: 'Индекс', value: null },
-        { name: 'Улица', value: '' },
-        { name: 'Дом', value: '' }
-      ],
-      passportAttributes: [
-        { name: 'Тип документа', value: null, type: 'select', options: ['Паспорт', 'Свидетельство о рождении', 'Вод. удостоверение'] },//*
-        { name: 'Серия', value: null, type: 'text' },
-        { name: 'Номер', value: null, type: 'text' },
-        { name: 'Кем выдан', value: '', type: 'text' },
-        { name: 'Дата выдачи', value: null, type: 'date' }//*
-      ]
+      form: {
+        surname: '',//*
+        name: '',//*
+        middleName: '',//*
+        clientGroup: { value: '', options: ['VIP', 'Проблемные', 'ОМС'] },//*
+        dateOfBirth: '',//*
+        phone: '(+7)',//*
+        gender: '',
+        attendingDoctor: { value: '', options: [ 'Иванов', 'Захаров', 'Чернышева' ] },
+        submitStatus: null,
+        notSendSMS: false,
+        country: '',
+        region: '',
+        city: '',//*
+        index: '',
+        street: '',
+        house: '',
+        TypeDocument: { value: '', options: ['Паспорт', 'Свидетельство о рождении', 'Вод. удостоверение'] },//*
+        series: '',
+        number: '',
+        whoIssued: '',
+        dateIssued: '',//*
+      }
     };
   },
   validations: {
-    mainAttributes: {
-      [0]: {
+    form: {
+      surname: {
+        required
+      },
+      name: {
+        required
+      },
+      middleName: {
+        required
+      },
+      clientGroup: {
         value: {
           required
         }
       },
-      [1]: {
+      dateOfBirth: {
+        required
+      },
+      phone: {
+        required,
+        minLength: minLength(14),
+        maxLength: maxLength(14)
+      },
+      city: {
+        required
+      },
+      TypeDocument: {
         value: {
           required
         }
       },
-      [2]: {
-        value: {
-          required
-        }
-      },
-      [3]: {
-        value: {
-          required
-        }
-      },
-      [4]: {
-        value: {
-          required
-        }
-      },
-      [5]: {
-        value: {
-          required,
-        }
+      dateIssued: {
+        required
       }
-    },
+    }
   },
   methods: {
     getPassportAttributes() {
@@ -74,13 +75,18 @@ export default {
       console.log('submit!')
       this.$v.$touch()
       if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR'
+        this.form.submitStatus = 'ERROR'
       } else {
         // do your submit logic here
-        this.submitStatus = 'PENDING'
+        this.form.submitStatus = 'PENDING'
         setTimeout(() => {
-          this.submitStatus = 'OK'
+          this.form.submitStatus = 'OK'
         }, 500)
+      }
+    },
+    vDate() {
+      if (this.form.phone.length < 5) {
+        this.form.phone = '(+7)'
       }
     }
   },

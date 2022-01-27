@@ -8,19 +8,19 @@
           class="form-container__block form-container__block--max-height-250 form-container__block--width"
         >
           <div class="form-container__block__item" :class="$v.form.surname.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-            <input class="form-container__block__item__input" v-model.trim="form.surname"/>
+            <input class="form-container__block__item__input" autocomplete="family-name" v-model.trim="form.surname"/>
             <label class="form-container__block__item__label">
               Фамилия<span>*</span>
             </label>
           </div>
           <div class="form-container__block__item" :class="$v.form.name.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-            <input class="form-container__block__item__input" v-model.trim="form.name"/>
+            <input class="form-container__block__item__input" autocomplete="given-name" v-model.trim="form.name"/>
             <label class="form-container__block__item__label">
               Имя<span>*</span>
             </label>
           </div>
           <div class="form-container__block__item" :class="$v.form.middleName.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-            <input class="form-container__block__item__input" v-model.trim="form.middleName"/>
+            <input class="form-container__block__item__input" autocomplete="additional-name" v-model.trim="form.middleName"/>
             <label class="form-container__block__item__label">
               Отчество<span>*</span>
             </label>
@@ -43,19 +43,19 @@
               </label>
           </div>
           <div class="form-container__block__item" :class="$v.form.dateOfBirth.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-            <input class="form-container__block__item__input" type="date" v-model.trim="form.dateOfBirth"/>
+            <input class="form-container__block__item__input" type="date" autocomplete="bday" v-model.trim="form.dateOfBirth"/>
             <label class="form-container__block__item__label">
               Дата рождения<span>*</span>
             </label>
           </div>
           <div class="form-container__block__item" :class="$v.form.phone.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-            <input class="form-container__block__item__input" v-model.trim="form.phone" @keyup.delete="vDate"/>
+            <input class="form-container__block__item__input" type="tel" autocomplete="tel" v-model.trim="form.phone" @keyup.delete="vDate"/>
             <label class="form-container__block__item__label">
               Номер телефона<span>*</span>
             </label>
           </div>
           <div class="form-container__block__item">
-            <input class="form-container__block__item__input" v-model.trim="form.gender"/>
+            <input class="form-container__block__item__input" autocomplete="sex" v-model.trim="form.gender"/>
             <label class="form-container__block__item__label">
               Пол
             </label>
@@ -86,37 +86,37 @@
       <h4 class="heading-4--margin">Адрес</h4>
       <div class="form-container">
         <div class="form-container__block__item">
-          <input class="form-container__block__item__input" v-model.trim="form.country"/>
+          <input class="form-container__block__item__input" autocomplete="country-name" v-model.trim="form.country"/>
           <label class="form-container__block__item__label">
             Страна
           </label>
         </div>
         <div class="form-container__block__item">
-          <input class="form-container__block__item__input" v-model.trim="form.region"/>
+          <input class="form-container__block__item__input" autocomplete="region" v-model.trim="form.region"/>
           <label class="form-container__block__item__label">
             Область
           </label>
         </div>
         <div class="form-container__block__item" :class="$v.form.city.$error && form.submitStatus == 'ERROR' ? 'form-container__block__item--error' : ''">
-          <input class="form-container__block__item__input" v-model.trim="form.city"/>
+          <input class="form-container__block__item__input" autocomplete="locality" v-model.trim="form.city"/>
           <label class="form-container__block__item__label">
             Город<span>*</span>
           </label>
         </div>
         <div class="form-container__block__item">
-          <input class="form-container__block__item__input" v-model.trim="form.index"/>
+          <input class="form-container__block__item__input" autocomplete="postal-code" v-model.trim="form.index"/>
           <label class="form-container__block__item__label">
             Индекс
           </label>
         </div>
         <div class="form-container__block__item">
-          <input class="form-container__block__item__input" v-model.trim="form.street"/>
+          <input class="form-container__block__item__input" autocomplete="street-address" v-model.trim="form.street"/>
           <label class="form-container__block__item__label">
             Улица
           </label>
         </div>
         <div class="form-container__block__item">
-          <input class="form-container__block__item__input" v-model.trim="form.house"/>
+          <input class="form-container__block__item__input" autocomplete="home" v-model.trim="form.house"/>
           <label class="form-container__block__item__label">
             Дом
           </label>
@@ -145,19 +145,19 @@
           class="form-container__block form-container__block--max-height-140 form-container__block--width"
         >
           <div class="form-container__block__item">
-            <input class="form-container__block__item__input" v-model.trim="form.series"/>
+            <input class="form-container__block__item__input" autocomplete="no" v-model.trim="form.series"/>
             <label class="form-container__block__item__label">
               Серия
             </label>
           </div>
           <div class="form-container__block__item">
-            <input class="form-container__block__item__input" v-model.trim="form.number"/>
+            <input class="form-container__block__item__input" autocomplete="no" v-model.trim="form.number"/>
             <label class="form-container__block__item__label">
               Номер
             </label>
           </div>
           <div class="form-container__block__item">
-            <input class="form-container__block__item__input" v-model.trim="form.whoIssued"/>
+            <input class="form-container__block__item__input" autocomplete="no" v-model.trim="form.whoIssued"/>
             <label class="form-container__block__item__label">
               Кем выдан
             </label>

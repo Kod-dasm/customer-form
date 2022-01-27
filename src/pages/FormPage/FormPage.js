@@ -11,7 +11,7 @@ export default {
         middleName: '',//*
         clientGroup: { value: '', options: ['VIP', 'Проблемные', 'ОМС'] },//*
         dateOfBirth: '',//*
-        phone: '(+7)',//*
+        phone: '+7',//*
         gender: '',
         attendingDoctor: { value: '', options: [ 'Иванов', 'Захаров', 'Чернышева' ] },
         submitStatus: null,
@@ -51,8 +51,8 @@ export default {
       },
       phone: {
         required,
-        minLength: minLength(14),
-        maxLength: maxLength(14)
+        minLength: minLength(12),
+        maxLength: maxLength(12)
       },
       city: {
         required
@@ -85,8 +85,8 @@ export default {
       }
     },
     vDate() {
-      if (this.form.phone.length < 5) {
-        this.form.phone = '(+7)'
+      if (this.form.phone.length < 3) {
+        this.form.phone = '+7'
       }
     }
   },
